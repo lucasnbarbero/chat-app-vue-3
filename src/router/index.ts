@@ -1,3 +1,4 @@
+import { useFirebase } from "@/app/modules/Auth/hooks/useFirebase";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -7,6 +8,12 @@ const router = createRouter({
       path: "/",
       name: "MainLayout",
       redirect: "/home",
+      beforeEnter: async (to, from, next) => {
+        const { currentUser } = useFirebase();
+
+        if (!(await currentUser())) next({ path: "/login" });
+        else next();
+      },
       component: () => import("../app/Layout/ui/views/MainLayout.vue"),
       children: [
         { path: "/home", name: "HomeView", component: () => import("../app/modules/Home/ui/views/Index.vue") },
