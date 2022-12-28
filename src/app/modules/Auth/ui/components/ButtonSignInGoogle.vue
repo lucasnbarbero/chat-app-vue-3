@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useFirebase } from "../../hooks/useFirebaseAuth";
+import { useFirebaseAuth } from "../../hooks/useFirebaseAuth";
 
 //  Hooks
-const { signInWithGoogle } = useFirebase();
+const { signInWithGoogle } = useFirebaseAuth();
 
 //  Refs
 const isLoading = ref<boolean>(false);

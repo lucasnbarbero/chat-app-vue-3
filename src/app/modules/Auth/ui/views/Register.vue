@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as Yup from "yup";
+import { useFirebaseAuth } from "../../hooks/useFirebaseAuth";
 
 //  Components
 import ButtonSignInGoogleVue from "../components/ButtonSignInGoogle.vue";
@@ -12,7 +13,8 @@ import VeeValidateInputPasswordVue from "@/app/ui/components/form/VeeValidateInp
 const isSubmit = ref<boolean>(false);
 
 //  Hooks
-const { handleSubmit } = useForm({
+const { register } = useFirebaseAuth();
+const { handleSubmit, setFieldError } = useForm({
   validationSchema: Yup.object().shape({
     email: Yup.string().required(),
     password: Yup.string().required(),
@@ -25,7 +27,8 @@ const { handleSubmit } = useForm({
 //  Methods
 const submit = handleSubmit((values) => {
   isSubmit.value = true;
-  console.log(values);
+  const { email, password } = values;
+  register(email, password, setFieldError);
   isSubmit.value = false;
 });
 </script>
