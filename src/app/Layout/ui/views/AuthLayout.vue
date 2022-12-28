@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 onMounted(() => {
   document.body.classList.add("app-blank", "bgi-size-cover", "bgi-position-center", "bgi-no-repeat");
   document.body.style.backgroundImage = "url('src/assets/img/auth/bg1.jpg')";
 });
+
+onUnmounted(() => {
+  document.body.classList.remove("app-blank", "bgi-size-cover", "bgi-position-center", "bgi-no-repeat");
+  document.body.style.backgroundImage = "";
+})
 </script>
 
 <template>

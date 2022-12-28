@@ -1,4 +1,4 @@
-import { useFirebase } from "@/app/modules/Auth/hooks/useFirebase";
+import { useFirebase } from "@/app/modules/Auth/hooks/useFirebaseAuth";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
