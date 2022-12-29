@@ -5,9 +5,9 @@ import * as Yup from "yup";
 import { useFirebaseAuth } from "../../hooks/useFirebaseAuth";
 
 //  Components
-import ButtonSignInGoogleVue from "../components/ButtonSignInGoogle.vue";
-import VeeValidateInputTextVue from "@/app/ui/components/form/VeeValidateInputText.vue";
-import VeeValidateInputPasswordVue from "@/app/ui/components/form/VeeValidateInputPassword.vue";
+import ButtonSignInGoogleVue from "./components/ButtonSignInGoogle.vue";
+import VeeValidateInputTextVue from "@/components/form/VeeValidateInputText.vue";
+import VeeValidateInputPasswordVue from "@/components/form/VeeValidateInputPassword.vue";
 
 //  Refs
 const isSubmit = ref<boolean>(false);

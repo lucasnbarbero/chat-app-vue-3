@@ -2,17 +2,19 @@
 import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as Yup from "yup";
+import { useFirebaseAuth } from "@/hooks/useFirebaseAuth";
 
 //  Components
-import ButtonSignInGoogleVue from "../components/ButtonSignInGoogle.vue";
-import VeeValidateInputTextVue from "@/app/ui/components/form/VeeValidateInputText.vue";
-import VeeValidateInputPasswordVue from "@/app/ui/components/form/VeeValidateInputPassword.vue";
+import ButtonSignInGoogleVue from "./components/ButtonSignInGoogle.vue";
+import VeeValidateInputTextVue from "@/components/form/VeeValidateInputText.vue";
+import VeeValidateInputPasswordVue from "@/components/form/VeeValidateInputPassword.vue";
 
 //  Refs
 const isSubmit = ref<boolean>(false);
 
 //  Hooks
-const { handleSubmit } = useForm({
+const { login } = useFirebaseAuth();
+const { handleSubmit, setFieldError } = useForm({
   validationSchema: Yup.object().shape({
     email: Yup.string().required(),
     password: Yup.string().required(),
@@ -20,9 +22,10 @@ const { handleSubmit } = useForm({
 });
 
 //  Methods
-const login = handleSubmit((values) => {
+const submit = handleSubmit((values) => {
   isSubmit.value = true;
-  console.log(values);
+  const { email, password } = values;
+  login(email, password, setFieldError);
   isSubmit.value = false;
 });
 </script>
@@ -30,7 +33,7 @@ const login = handleSubmit((values) => {
 <template>
   <form
     class="form w-100"
-    @submit.prevent="login"
+    @submit.prevent="submit"
   >
     <div class="text-center mb-11">
       <h1 class="text-dark fw-bolder mb-3">Bienvenido</h1>

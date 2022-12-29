@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useFirebaseAuth } from "../../hooks/useFirebaseAuth";
+import { useFirebaseAuth } from "@/hooks/useFirebaseAuth";
 
 //  Hooks
 const { signInWithGoogle } = useFirebaseAuth();

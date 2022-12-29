@@ -1,11 +1,10 @@
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import userStore from "@/app/store/user.store";
+import userStore from "@/stores/user.store";
 import { auth } from "@/services/firebase.service";
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import type { User, UserCredential } from "firebase/auth";
 import { Toast } from "@/utils/toast.swal";
-import type { FormActions } from "vee-validate";
 
 export function useFirebaseAuth() {
   //  Hooks
@@ -35,6 +34,26 @@ export function useFirebaseAuth() {
       });
   }
 
+  async function login(email: string, password: string, callback: Function) {
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((user: UserCredential) => {
+        setUser(user);
+      })
+      .catch((error) => {
+        const { code } = error;
+        switch (code) {
+          case "auth/user-not-found":
+            callback("email", "El correo no está registrado");
+            break;
+          case "auth/wrong-password":
+            callback("password", "La contraseña es incorrecta");
+            break;
+          default:
+            Toast.fire("No se pudo iniciar sesión", "", "error").then(() => console.log(code));
+        }
+      });
+  }
+
   async function register(email: string, password: string, callback: Function) {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((user: UserCredential) => {
@@ -54,6 +73,7 @@ export function useFirebaseAuth() {
   return {
     currentUser,
     signInWithGoogle,
+    login,
     register,
   };
 }
